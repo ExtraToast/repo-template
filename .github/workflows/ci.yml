@@ -7,10 +7,10 @@
 # touching branch protection: as long as it is in `needs:` below, it gates
 # merges through the aggregator.
 #
-# Replace the placeholder `lint` / `test` / `build` jobs with the real work
-# for this repo (or call reusable workflows from ExtraToast/github-workflows),
-# but ALWAYS keep the final `pipeline-complete` job and list every gating job
-# in its `needs:`.
+# Replace the placeholder `lint` / `test` / `coverage` / `build` jobs with the
+# real work for this repo (or call reusable workflows from
+# ExtraToast/github-workflows), but ALWAYS keep the final `pipeline-complete`
+# job and list every gating job in its `needs:`.
 name: CI
 
 on:
@@ -41,6 +41,13 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo "replace with real tests"
 
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "replace with the repo's real coverage gate — jacocoTestCoverageVerification >=80% for Gradle, or vitest/c8 --lines 80 for Node"
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -57,7 +64,7 @@ jobs:
   pipeline-complete:
     name: Pipeline Complete
     if: always()
-    needs: [lint, test, build]
+    needs: [lint, test, coverage, build]
     runs-on: ubuntu-latest
     steps:
       - name: Verify all gating jobs succeeded
