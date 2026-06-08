@@ -22,10 +22,24 @@ succeeded. The org ruleset requires only that one check, so adding/renaming a
 job never touches branch protection — just keep it in the aggregator's
 `needs:`. See `.github/workflows/ci.yml`.
 
+Every repo also enforces **>=80% line coverage** in CI. Keep the `coverage` job
+in the `Pipeline Complete` aggregator and replace the placeholder with the
+repo's real gate:
+
+- Gradle: apply JaCoCo and run `jacocoTestCoverageVerification` with a line
+  coverage minimum of `0.80`.
+- Node: run Vitest with c8 coverage enforcement, for example `c8 --lines 80
+  vitest run`.
+
 ## Versioning
 
 Exact-pin everything; release via release-please. Full rules in
 `VERSIONING.md`.
+
+## Publishing
+
+New GitHub Packages publish as public on this account. Verify package visibility
+after the first publish.
 
 ## Commit & PR voice
 
