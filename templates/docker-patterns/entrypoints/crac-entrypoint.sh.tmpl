@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+# DESIGN-ONLY SKELETON: CRaC train/restore entrypoint.
+set -eu
+
+: "${CRAC_MODE:={{crac_mode}}}"
+: "${CRAC_CHECKPOINT_DIR:={{checkpoint_dir}}}"
+: "${JAVA_OPTS:={{java_opts}}}"
+
+case "$CRAC_MODE" in
+  train)
+    exec java ${JAVA_OPTS} -XX:CRaCCheckpointTo="${CRAC_CHECKPOINT_DIR}" -jar "{{jar_path}}"
+    ;;
+  restore)
+    exec java ${JAVA_OPTS} -XX:CRaCRestoreFrom="${CRAC_CHECKPOINT_DIR}"
+    ;;
+  run)
+    exec java ${JAVA_OPTS} -jar "{{jar_path}}"
+    ;;
+  *)
+    echo "Unsupported CRAC_MODE: ${CRAC_MODE}" >&2
+    exit 2
+    ;;
+esac

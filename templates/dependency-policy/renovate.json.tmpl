@@ -12,11 +12,11 @@
     {
       "description": "Group routine minor and patch updates; major updates stay isolated outside this rule.",
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "minor and patch dependencies",
+      "groupName": "{{routine_group_name}}",
       "labels": ["dependencies", "routine-update"]
     },
     {
-      "description": "Group all ExtraToast shared artifacts so a coherent platform bump lands in one PR.",
+      "description": "Optional ExtraToast shared-artifact grouping. Remove this rule for non-ExtraToast consumers.",
       "matchPackagePatterns": ["^dev\\.extratoast", "^@extratoast/"],
       "matchDepNames": ["ExtraToast/github-workflows"],
       "groupName": "extratoast shared artifacts",
@@ -28,5 +28,11 @@
       "pinDigests": true
     }
   ],
-  "lockFileMaintenance": { "enabled": true }
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["dependencies", "security"]
+  },
+  "lockFileMaintenance": {
+    "enabled": true
+  }
 }

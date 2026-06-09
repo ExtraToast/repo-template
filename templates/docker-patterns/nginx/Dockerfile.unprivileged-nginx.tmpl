@@ -1,0 +1,14 @@
+# DESIGN-ONLY SKELETON: unprivileged nginx runtime.
+# Prefer this pattern when the platform can route to an unprivileged container
+# port.
+
+ARG NGINX_RUNTIME_IMAGE="{{unprivileged_nginx_runtime_image}}"
+FROM ${NGINX_RUNTIME_IMAGE}
+
+COPY {{nginx_config_path}} /etc/nginx/conf.d/default.conf
+COPY {{static_assets_dir}} {{nginx_html_dir}}
+
+USER {{nginx_uid}}:{{nginx_gid}}
+EXPOSE {{unprivileged_listen_port}}
+
+CMD ["nginx", "-g", "daemon off;"]

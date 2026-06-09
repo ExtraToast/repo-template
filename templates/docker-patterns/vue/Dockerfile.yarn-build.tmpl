@@ -1,0 +1,14 @@
+# DESIGN-ONLY SKELETON: Yarn frontend build stage.
+
+ARG NODE_BUILD_IMAGE="{{node_build_image}}"
+FROM ${NODE_BUILD_IMAGE} AS yarn-build
+
+WORKDIR /workspace
+
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+RUN corepack enable && corepack prepare "yarn@{{yarn_version}}" --activate
+RUN yarn install --immutable
+
+COPY {{source_copy_glob}} ./
+RUN yarn {{build_script}}

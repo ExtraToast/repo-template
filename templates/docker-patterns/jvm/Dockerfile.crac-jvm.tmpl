@@ -1,0 +1,31 @@
+# DESIGN-ONLY SKELETON: CRaC-capable JVM service runtime.
+# This is separate from the ordinary JVM pattern because checkpoint restore,
+# privileges, mounts, and training behavior are service-specific.
+
+ARG CRAC_RUNTIME_IMAGE="{{crac_runtime_image}}"
+FROM ${CRAC_RUNTIME_IMAGE}
+
+ARG APP_USER="{{app_user}}"
+ARG APP_UID="{{app_uid}}"
+ARG APP_GID="{{app_gid}}"
+ARG JAR_PATH="{{jar_path}}"
+ARG CHECKPOINT_DIR="{{checkpoint_dir}}"
+
+WORKDIR /app
+
+COPY {{build_output_jar}} ${JAR_PATH}
+COPY {{crac_entrypoint_path}} /app/entrypoint.sh
+
+RUN chmod +x /app/entrypoint.sh
+
+USER ${APP_UID}:${APP_GID}
+
+ENV JAVA_OPTS="{{java_opts}}"
+ENV CRAC_MODE="{{crac_mode}}"
+ENV CRAC_CHECKPOINT_DIR="${CHECKPOINT_DIR}"
+ENV SERVER_PORT="{{server_port}}"
+
+VOLUME ["{{checkpoint_dir}}"]
+EXPOSE {{server_port}}
+
+ENTRYPOINT ["/app/entrypoint.sh"]

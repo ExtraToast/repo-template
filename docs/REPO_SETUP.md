@@ -24,8 +24,20 @@
 6. **Set the starting version** in `.release-please-manifest.json`.
 7. **CODEOWNERS / README**: adjust owners and replace this README's body with
    the repo's purpose.
-8. **Enable Renovate** (GitHub App) on the repo; `renovate.json` is already
-   present.
+8. **Choose dependency policy depth**:
+   - Keep the root `renovate.json` and `.github/dependabot.yml` for the default
+     ExtraToast policy.
+   - Copy richer stack-specific variants from `templates/dependency-policy/`
+     when the repo needs Dependabot ecosystems, dependency-review, Scorecard, or
+     advanced CodeQL setup.
+9. **Choose root tooling presets** from `templates/root-tooling/` when the repo
+   has frontend linting, local hooks, ADRs, or docs indexes.
+10. **Review Docker pattern skeletons** in `templates/docker-patterns/` only as
+    design references. They are not production Dockerfiles.
+11. **Validate template assets**:
+    ```bash
+    scripts/validate-templates.sh
+    ```
 
 ## What this template provides
 
@@ -37,6 +49,10 @@
 | `.github/PULL_REQUEST_TEMPLATE.md` | PR template (tracking + verification + versioning) |
 | `.github/ISSUE_TEMPLATE/*` | Bug / feature / task forms |
 | `.github/CODEOWNERS`, `dependabot.yml`, `renovate.json` | Ownership + dependency automation |
+| `templates/dependency-policy/` | Parameterized Dependabot, Renovate, dependency-review, Scorecard, and CodeQL policy templates |
+| `templates/root-tooling/` | Root editor, prettier, ESLint, lint-staged, Husky, gitleaks, docs, and ADR presets |
+| `templates/docker-patterns/` | Design-only Dockerfile and entrypoint skeleton fixtures |
+| `scripts/validate-templates.sh` | Local validation for template syntax, policy invariants, and source-value leakage |
 | `release-please-config.json`, `.release-please-manifest.json` | Versioning state |
 | `CONTRIBUTING.md`, `VERSIONING.md`, `SECURITY.md` | Conventions |
 | `.editorconfig`, `.gitignore`, `.gitleaks.toml`, `LICENSE` | Baseline hygiene |
