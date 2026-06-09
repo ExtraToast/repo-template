@@ -1,0 +1,19 @@
+# DESIGN-ONLY SKELETON: Vue build plus nginx runtime.
+# Keep SPA nginx caching details in vue-web-commons; this repo only records the
+# generic build/runtime split.
+
+ARG NODE_BUILD_IMAGE="{{node_build_image}}"
+ARG NGINX_RUNTIME_IMAGE="{{nginx_runtime_image}}"
+
+FROM ${NODE_BUILD_IMAGE} AS build
+WORKDIR /workspace
+COPY {{package_manager_files}} ./
+RUN {{package_manager_install_command}}
+COPY {{source_copy_glob}} ./
+RUN {{frontend_build_command}}
+
+FROM ${NGINX_RUNTIME_IMAGE} AS runtime
+COPY {{nginx_config_path}} /etc/nginx/conf.d/default.conf
+COPY --from=build {{dist_dir}} {{nginx_html_dir}}
+EXPOSE {{nginx_listen_port}}
+CMD ["nginx", "-g", "daemon off;"]

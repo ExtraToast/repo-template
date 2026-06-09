@@ -1,0 +1,25 @@
+# DESIGN-ONLY SKELETON: ordinary JVM service runtime.
+# Replace every placeholder before considering this for production.
+
+ARG RUNTIME_IMAGE="{{jvm_runtime_image}}"
+FROM ${RUNTIME_IMAGE}
+
+ARG APP_USER="{{app_user}}"
+ARG APP_UID="{{app_uid}}"
+ARG APP_GID="{{app_gid}}"
+ARG JAR_PATH="{{jar_path}}"
+
+WORKDIR /app
+
+# Future implementation: create the runtime user using the target image's
+# package/user tooling, then copy the built jar with correct ownership.
+COPY {{build_output_jar}} ${JAR_PATH}
+
+USER ${APP_UID}:${APP_GID}
+
+ENV JAVA_OPTS="{{java_opts}}"
+ENV SERVER_PORT="{{server_port}}"
+
+EXPOSE {{server_port}}
+
+ENTRYPOINT ["sh", "-c", "exec java ${JAVA_OPTS} -jar {{jar_path}}"]

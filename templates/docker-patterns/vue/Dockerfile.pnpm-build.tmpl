@@ -1,0 +1,16 @@
+# DESIGN-ONLY SKELETON: pnpm frontend build stage.
+
+ARG NODE_BUILD_IMAGE="{{node_build_image}}"
+FROM ${NODE_BUILD_IMAGE} AS pnpm-build
+
+WORKDIR /workspace
+ENV PNPM_HOME="{{pnpm_home}}"
+ENV PATH="${PNPM_HOME}:${PATH}"
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY {{workspace_manifest_globs}} ./
+RUN corepack enable && corepack prepare "pnpm@{{pnpm_version}}" --activate
+RUN pnpm install --frozen-lockfile
+
+COPY {{source_copy_glob}} ./
+RUN pnpm {{build_script}}

@@ -14,6 +14,13 @@ aligned instead of re-inventing CI, rulesets, templates, and release flow.
 - **Tag → release versioning** via release-please, with exact-pin consumption
   and version-pinned deploys. (`release.yml`, `VERSIONING.md`)
 - **Renovate** for exact-version dependency bumps (ExtraToast artifacts grouped).
+- **Dependency policy templates** for Dependabot, Renovate, dependency-review,
+  Scorecard, and CodeQL. (`templates/dependency-policy/`)
+- **Root tooling and docs presets** for frontend lint/format hooks, gitleaks,
+  ADR layout, and docs indexes. (`templates/root-tooling/`)
+- **Design-only Docker pattern skeletons** for JVM, CRaC JVM, OTel entrypoints,
+  Vue builds, package-manager builds, and nginx privilege variants.
+  (`templates/docker-patterns/`)
 - **PR + issue templates**, `CODEOWNERS`, `SECURITY.md`, `CONTRIBUTING.md`, and
   baseline hygiene (`.editorconfig`, `.gitignore`, `.gitleaks.toml`, `LICENSE`).
 
@@ -22,3 +29,9 @@ aligned instead of re-inventing CI, rulesets, templates, and release flow.
 See [`docs/REPO_SETUP.md`](docs/REPO_SETUP.md) to bootstrap a new repo, and
 [`CONTRIBUTING.md`](CONTRIBUTING.md) / [`VERSIONING.md`](VERSIONING.md) for the
 conventions every repo follows.
+
+Validate template assets locally with:
+
+```bash
+scripts/validate-templates.sh
+```
