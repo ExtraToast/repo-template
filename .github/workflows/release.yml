@@ -37,10 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          echo "Publish artifacts for ${{ needs.release-please.outputs.tag_name }}"
-          echo "Maven -> GitHub Packages (dev.extratoast.*) / npm -> @extratoast / images -> ghcr.io/extratoast"
-          echo "Replace with the real publish step for this repo's artifact type."
+      # This repo is consumed by release tag/ref; the GitHub Release is the artifact.
+      - run: echo "Released repo-template at ${{ needs.release-please.outputs.tag_name }}"
