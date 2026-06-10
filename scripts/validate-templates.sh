@@ -43,6 +43,7 @@ yaml_files=(
   templates/dependency-policy/scorecard.yml.tmpl
   templates/dependency-policy/codeql.yml.tmpl
   templates/dependency-policy/codeql-config.yml.tmpl
+  templates/platform-config-validation/platform-config-validate.yml.tmpl
 )
 
 log "checking YAML syntax when a local parser is available"
@@ -87,6 +88,16 @@ grep -R "lint-staged" templates/root-tooling/hooks templates/root-tooling/packag
   || fail "lint-staged preset missing"
 grep -R "prettier --check" templates/root-tooling/package templates/root-tooling/hooks >/dev/null \
   || fail "format check preset missing"
+
+log "checking platform config validation template"
+grep -F "uses: ExtraToast/github-workflows/.github/workflows/platform-config-validate.yml@main" templates/platform-config-validation/platform-config-validate.yml.tmpl >/dev/null \
+  || fail "platform config validation template must call the reusable workflow by ref"
+grep -F "schema-kind: auto" templates/platform-config-validation/platform-config-validate.yml.tmpl >/dev/null \
+  || fail "platform config validation template must default schema-kind to auto"
+grep -F "platform/**/*.yaml" templates/platform-config-validation/platform-config-validate.yml.tmpl >/dev/null \
+  || fail "platform config validation template must include platform YAML globs"
+grep -F "deploy/**/*.yaml" templates/platform-config-validation/platform-config-validate.yml.tmpl >/dev/null \
+  || fail "platform config validation template must include deploy YAML globs"
 
 log "checking Docker pattern template structure"
 python3 - "$ROOT" <<'PY'
