@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/ExtraToast/repo-template/compare/v1.0.0...v1.1.0) (2026-06-10)
+
+
+### Features
+
+* opt-in platform-config-validate workflow template ([#10](https://github.com/ExtraToast/repo-template/issues/10)) ([1be48ff](https://github.com/ExtraToast/repo-template/commit/1be48ff0b67e727dd2e2895222ee3ef5697a6368))
+
 ## 1.0.0 (2026-06-09)
 
 
