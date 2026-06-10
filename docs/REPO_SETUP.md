@@ -32,9 +32,16 @@
      advanced CodeQL setup.
 9. **Choose root tooling presets** from `templates/root-tooling/` when the repo
    has frontend linting, local hooks, ADRs, or docs indexes.
-10. **Review Docker pattern skeletons** in `templates/docker-patterns/` only as
+10. **Opt into platform/deploy config validation** only for repos that carry
+    platform config: copy
+    `templates/platform-config-validation/platform-config-validate.yml.tmpl` to
+    `.github/workflows/platform-config-validate.yml`. It calls
+    `ExtraToast/github-workflows/.github/workflows/platform-config-validate.yml@main`
+    with `schema-kind: auto` and platform/deploy YAML globs. Pin the reusable
+    workflow ref to a release tag when one is available.
+11. **Review Docker pattern skeletons** in `templates/docker-patterns/` only as
     design references. They are not production Dockerfiles.
-11. **Validate template assets**:
+12. **Validate template assets**:
     ```bash
     scripts/validate-templates.sh
     ```
@@ -51,6 +58,7 @@
 | `.github/CODEOWNERS`, `dependabot.yml`, `renovate.json` | Ownership + dependency automation |
 | `templates/dependency-policy/` | Parameterized Dependabot, Renovate, dependency-review, Scorecard, and CodeQL policy templates |
 | `templates/root-tooling/` | Root editor, prettier, ESLint, lint-staged, Husky, gitleaks, docs, and ADR presets |
+| `templates/platform-config-validation/` | Opt-in workflow template for `@extratoast/deploy-config-schema` validation |
 | `templates/docker-patterns/` | Design-only Dockerfile and entrypoint skeleton fixtures |
 | `scripts/validate-templates.sh` | Local validation for template syntax, policy invariants, and source-value leakage |
 | `release-please-config.json`, `.release-please-manifest.json` | Versioning state |

@@ -18,6 +18,9 @@ aligned instead of re-inventing CI, rulesets, templates, and release flow.
   Scorecard, and CodeQL. (`templates/dependency-policy/`)
 - **Root tooling and docs presets** for frontend lint/format hooks, gitleaks,
   ADR layout, and docs indexes. (`templates/root-tooling/`)
+- **Opt-in platform/deploy config validation** against
+  `@extratoast/deploy-config-schema` via a reusable workflow template.
+  (`templates/platform-config-validation/`)
 - **Design-only Docker pattern skeletons** for JVM, CRaC JVM, OTel entrypoints,
   Vue builds, package-manager builds, and nginx privilege variants.
   (`templates/docker-patterns/`)
@@ -35,3 +38,10 @@ Validate template assets locally with:
 ```bash
 scripts/validate-templates.sh
 ```
+
+Repos that carry platform/deploy YAML can opt into schema validation by copying
+`templates/platform-config-validation/platform-config-validate.yml.tmpl` to
+`.github/workflows/platform-config-validate.yml`. The workflow calls
+`ExtraToast/github-workflows/.github/workflows/platform-config-validate.yml@main`
+with `schema-kind: auto` and defaults to `platform/**/*.yml`,
+`platform/**/*.yaml`, `deploy/**/*.yml`, and `deploy/**/*.yaml`.
